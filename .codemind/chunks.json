@@ -1,0 +1,530 @@
+[
+  {
+    "id": "chunk_mod__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_docstring_0",
+    "symbol_id": "mod__home_dong_mytool_codeAnalysis_codemind_cli_commands.py",
+    "content": "CLI commands implementation\"\"\"\n\nimport typer\nimport os\nfrom rich.console import Console\nfrom rich.panel import Panel\nfrom rich.text import Text\nfrom rich.progress import Progress, SpinnerColumn, TextColumn\n\nfrom codemind.config.manager import ConfigManager\nfrom codemind.core.logger import logger\nfrom codemind.parser.file_scanner import FileScanner\nfrom codemind.parser.tree_sitter_parser import TreeSitterParser\nfrom codemind.parser.symbol_extractor import SymbolExtractor\nfrom codemind.parser.dependency_analyzer import DependencyAnalyzer\nfrom codemind.parser.chunk_builder import ChunkBuilder\nfrom codemind.parser.md5_cache import MD5Cache\nfrom codemind.storage.manager import StorageManager\n\nconsole = Console()\napp = typer.Typer(\n    name=\"codemind\",\n    help=\"CodeMind CLI commands\",\n)\n\n@app.command()\ndef init(project_path: str = typer.Option(\".\", help=\"Project path\")):\n    \"\"\"Initialize CodeMind project",
+    "chunk_type": "docstring",
+    "start_line": 1,
+    "end_line": 2,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_init_26_1",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_init_26",
+    "content": "def init(project_path: str = typer.Option(\".\", help=\"Project path\")):\n    \"\"\"Initialize CodeMind project\"\"\"\n    console.print(\"[bold cyan]Initializing CodeMind project...[/bold cyan]\")\n    \n    try:\n        config_manager = ConfigManager(project_path)\n        config_manager.initialize()\n        console.print(\"[green]✓ Project initialized successfully![/green]\")\n        console.print(f\"[blue]Config file:[/blue] {config_manager.config_path}\")\n    except Exception as e:\n        logger.error(f\"Failed to initialize project: {e}\")\n        console.print(f\"[red]✗ Failed: {e}[/red]\")",
+    "chunk_type": "function",
+    "start_line": 27,
+    "end_line": 38,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_init_26_docstring_2",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_init_26",
+    "content": "Initialize CodeMind project",
+    "chunk_type": "docstring",
+    "start_line": 27,
+    "end_line": 28,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_init_26_3",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_init_26",
+    "content": "def init(project_path: str = typer.Option(\".\", help=\"Project path\")):\n    \"\"\"Initialize CodeMind project\"\"\"\n    console.print(\"[bold cyan]Initializing CodeMind project...[/bold cyan]\")\n    \n    try:\n        config_manager = ConfigManager(project_path)\n        config_manager.initialize()\n        console.print(\"[green]✓ Project initialized successfully![/green]\")\n        console.print(f\"[blue]Config file:[/blue] {config_manager.config_path}\")\n    except Exception as e:\n        logger.error(f\"Failed to initialize project: {e}\")\n        console.print(f\"[red]✗ Failed: {e}[/red]\")",
+    "chunk_type": "function",
+    "start_line": 27,
+    "end_line": 38,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_init_26_docstring_4",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_init_26",
+    "content": "Initialize CodeMind project",
+    "chunk_type": "docstring",
+    "start_line": 27,
+    "end_line": 28,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_build_40_5",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_build_40",
+    "content": "def build(full: bool = typer.Option(False, \"--full\", help=\"Full rebuild\"),\n          docs_only: bool = typer.Option(False, \"--docs-only\", help=\"Only generate docs\")):\n    \"\"\"Build documentation and indexes\"\"\"\n    console.print(\"[bold cyan]Building CodeMind project...[/bold cyan]\")\n    console.print()\n    \n    try:\n        # Initialize components\n        console.print(\"[bold blue]=== Initializing components ===[/bold blue]\")\n        config_manager = ConfigManager(\".\")\n        storage_manager = StorageManager()\n        md5_cache = MD5Cache()\n        console.print(\"[green]✓ Components initialized[/green]\")\n        console.print()\n        \n        # Clear cache if full rebuild\n        if full:\n            console.print(\"[bold blue]=== Clearing cache (full rebuild) ===[/bold blue]\")\n            md5_cache.clear()\n            storage_manager.clear_all()\n            console.print(\"[green]✓ Cache cleared[/green]\")\n            console.print()\n        \n        # Step 1: Scan files\n        console.print(\"[bold blue]=== Step 1: Scanning files ===[/bold blue]\")\n        file_scanner = FileScanner()\n        files = file_scanner.scan()\n        console.print(f\"[green]✓ Found {len(files)} files to process[/green]\")\n        for file in files[:10]:  # Show first 10 files\n            console.print(f\"  - {file}\")\n        if len(files) > 10:\n            console.print(f\"  ... and {len(files) - 10} more files\")\n        console.print()\n        \n        # Step 2: Parse files\n        console.print(\"[bold blue]=== Step 2: Parsing files ===[/bold blue]\")\n        parser = TreeSitterParser()\n        symbol_extractor = SymbolExtractor()\n        dependency_analyzer = DependencyAnalyzer()\n        chunk_builder = ChunkBuilder()\n        \n        all_symbols = []\n        all_chunks = []\n        processed_files = 0\n        updated_files = 0\n        \n        for file_path in files:\n            processed_files += 1\n            console.print(f\"[cyan]Processing file {processed_files}/{len(files)}:[/cyan] {file_path}\")\n            \n            # Check if file needs parsing\n            if not md5_cache.needs_update(file_path):\n                console.print(\"  [yellow]✓ Already up to date, skipping[/yellow]\")\n                continue\n            \n            updated_files += 1\n            \n            # Parse file\n            console.print(\"  [blue]Parsing file...[/blue]\")\n            tree = parser.parse_file(file_path)\n            if not tree:\n                console.print(\"  [red]✗ Failed to parse[/red]\")\n                continue\n            console.print(\"  [green]✓ Parsed successfully[/green]\")\n            \n            # Extract symbols\n            console.print(\"  [blue]Extracting symbols...[/blue]\")\n            symbols = symbol_extractor.extract_from_tree(tree, file_path)\n            console.print(f\"  [green]✓ Extracted {len(symbols)} symbols[/green]\")\n            all_symbols.extend(symbols)\n            \n            # Analyze dependencies\n            console.print(\"  [blue]Analyzing dependencies...[/blue]\")\n            dependency_analyzer.analyze(symbols)\n            console.print(\"  [green]✓ Dependencies analyzed[/green]\")\n            \n            # Build chunks\n            console.print(\"  [blue]Building chunks...[/blue]\")\n            chunks = chunk_builder.build_chunks(file_path, tree, symbols)\n            console.print(f\"  [green]✓ Built {len(chunks)} chunks[/green]\")\n            all_chunks.extend(chunks)\n            \n            # Update cache\n            md5_cache.update(file_path)\n            console.print()\n        \n        console.print(f\"[bold green]✓ Parsing completed![/bold green]\")\n        console.print(f\"  Total files: {len(files)}\")\n        console.print(f\"  Updated files: {updated_files}\")\n        console.print(f\"  Total symbols: {len(all_symbols)}\")\n        console.print(f\"  Total chunks: {len(all_chunks)}\")\n        console.print()\n        \n        # Step 3: Save data\n        console.print(\"[bold blue]=== Step 3: Saving data ===[/bold blue]\")\n        storage_manager.save_all(all_symbols, all_chunks)\n        console.print(\"[green]✓ Data saved to storage[/green]\")\n        console.print()\n        \n        # Step 4: Generate docs if requested\n        if docs_only:\n            console.print(\"[bold blue]=== Step 4: Generating documentation ===[/bold blue]\")\n            console.print(\"[blue]This may take a while...[/blue]\")\n            console.print()\n            \n            from codemind.generator.manager import GeneratorManager\n            config = config_manager.load()\n            generator_manager = GeneratorManager(\n                llm_config=config.llm,\n                generator_config=config.generator\n            )\n            \n            console.print(\"[cyan]Calling GeneratorManager.generate_docs()...[/cyan]\")\n            console.print(f\"  Project path: .\")\n            console.print(f\"  Storage path: {storage_manager.storage_path}\")\n            console.print(f\"  LLM provider: {config.llm.provider}\")\n            console.print(f\"  LLM model: {config.llm.model}\")\n            console.print()\n            \n            result = generator_manager.generate_docs(\".\", storage_manager.storage_path)\n            \n            console.print(\"[bold green]✓ Documentation generated![/bold green]\")\n            console.print(f\"[blue]Wiki path:[/blue] {result.get('wiki_path', 'unknown')}\")\n            console.print(f\"[blue]Total documents:[/blue] {result.get('total_documents', 0)}\")\n            console.print(f\"[blue]Overview doc:[/blue] {result.get('overview', 'unknown')}\")\n            console.print(f\"[blue]Architecture doc:[/blue] {result.get('architecture', 'unknown')}\")\n            console.print(f\"[blue]Modules documented:[/blue] {result.get('modules', 0)}\")\n            console.print()\n        \n        console.print(\"[bold green]✓ Build completed successfully![/bold green]\")\n    except Exception as e:\n        logger.error(f\"Failed to build project: {e}\")\n        console.print(f\"[red]✗ Failed: {e}[/red]\")\n        import traceback\n        traceback.print_exc()",
+    "chunk_type": "function",
+    "start_line": 41,
+    "end_line": 175,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_build_40_docstring_6",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_build_40",
+    "content": "Build documentation and indexes",
+    "chunk_type": "docstring",
+    "start_line": 41,
+    "end_line": 42,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_build_40_7",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_build_40",
+    "content": "def build(full: bool = typer.Option(False, \"--full\", help=\"Full rebuild\"),\n          docs_only: bool = typer.Option(False, \"--docs-only\", help=\"Only generate docs\")):\n    \"\"\"Build documentation and indexes\"\"\"\n    console.print(\"[bold cyan]Building CodeMind project...[/bold cyan]\")\n    console.print()\n    \n    try:\n        # Initialize components\n        console.print(\"[bold blue]=== Initializing components ===[/bold blue]\")\n        config_manager = ConfigManager(\".\")\n        storage_manager = StorageManager()\n        md5_cache = MD5Cache()\n        console.print(\"[green]✓ Components initialized[/green]\")\n        console.print()\n        \n        # Clear cache if full rebuild\n        if full:\n            console.print(\"[bold blue]=== Clearing cache (full rebuild) ===[/bold blue]\")\n            md5_cache.clear()\n            storage_manager.clear_all()\n            console.print(\"[green]✓ Cache cleared[/green]\")\n            console.print()\n        \n        # Step 1: Scan files\n        console.print(\"[bold blue]=== Step 1: Scanning files ===[/bold blue]\")\n        file_scanner = FileScanner()\n        files = file_scanner.scan()\n        console.print(f\"[green]✓ Found {len(files)} files to process[/green]\")\n        for file in files[:10]:  # Show first 10 files\n            console.print(f\"  - {file}\")\n        if len(files) > 10:\n            console.print(f\"  ... and {len(files) - 10} more files\")\n        console.print()\n        \n        # Step 2: Parse files\n        console.print(\"[bold blue]=== Step 2: Parsing files ===[/bold blue]\")\n        parser = TreeSitterParser()\n        symbol_extractor = SymbolExtractor()\n        dependency_analyzer = DependencyAnalyzer()\n        chunk_builder = ChunkBuilder()\n        \n        all_symbols = []\n        all_chunks = []\n        processed_files = 0\n        updated_files = 0\n        \n        for file_path in files:\n            processed_files += 1\n            console.print(f\"[cyan]Processing file {processed_files}/{len(files)}:[/cyan] {file_path}\")\n            \n            # Check if file needs parsing\n            if not md5_cache.needs_update(file_path):\n                console.print(\"  [yellow]✓ Already up to date, skipping[/yellow]\")\n                continue\n            \n            updated_files += 1\n            \n            # Parse file\n            console.print(\"  [blue]Parsing file...[/blue]\")\n            tree = parser.parse_file(file_path)\n            if not tree:\n                console.print(\"  [red]✗ Failed to parse[/red]\")\n                continue\n            console.print(\"  [green]✓ Parsed successfully[/green]\")\n            \n            # Extract symbols\n            console.print(\"  [blue]Extracting symbols...[/blue]\")\n            symbols = symbol_extractor.extract_from_tree(tree, file_path)\n            console.print(f\"  [green]✓ Extracted {len(symbols)} symbols[/green]\")\n            all_symbols.extend(symbols)\n            \n            # Analyze dependencies\n            console.print(\"  [blue]Analyzing dependencies...[/blue]\")\n            dependency_analyzer.analyze(symbols)\n            console.print(\"  [green]✓ Dependencies analyzed[/green]\")\n            \n            # Build chunks\n            console.print(\"  [blue]Building chunks...[/blue]\")\n            chunks = chunk_builder.build_chunks(file_path, tree, symbols)\n            console.print(f\"  [green]✓ Built {len(chunks)} chunks[/green]\")\n            all_chunks.extend(chunks)\n            \n            # Update cache\n            md5_cache.update(file_path)\n            console.print()\n        \n        console.print(f\"[bold green]✓ Parsing completed![/bold green]\")\n        console.print(f\"  Total files: {len(files)}\")\n        console.print(f\"  Updated files: {updated_files}\")\n        console.print(f\"  Total symbols: {len(all_symbols)}\")\n        console.print(f\"  Total chunks: {len(all_chunks)}\")\n        console.print()\n        \n        # Step 3: Save data\n        console.print(\"[bold blue]=== Step 3: Saving data ===[/bold blue]\")\n        storage_manager.save_all(all_symbols, all_chunks)\n        console.print(\"[green]✓ Data saved to storage[/green]\")\n        console.print()\n        \n        # Step 4: Generate docs if requested\n        if docs_only:\n            console.print(\"[bold blue]=== Step 4: Generating documentation ===[/bold blue]\")\n            console.print(\"[blue]This may take a while...[/blue]\")\n            console.print()\n            \n            from codemind.generator.manager import GeneratorManager\n            config = config_manager.load()\n            generator_manager = GeneratorManager(\n                llm_config=config.llm,\n                generator_config=config.generator\n            )\n            \n            console.print(\"[cyan]Calling GeneratorManager.generate_docs()...[/cyan]\")\n            console.print(f\"  Project path: .\")\n            console.print(f\"  Storage path: {storage_manager.storage_path}\")\n            console.print(f\"  LLM provider: {config.llm.provider}\")\n            console.print(f\"  LLM model: {config.llm.model}\")\n            console.print()\n            \n            result = generator_manager.generate_docs(\".\", storage_manager.storage_path)\n            \n            console.print(\"[bold green]✓ Documentation generated![/bold green]\")\n            console.print(f\"[blue]Wiki path:[/blue] {result.get('wiki_path', 'unknown')}\")\n            console.print(f\"[blue]Total documents:[/blue] {result.get('total_documents', 0)}\")\n            console.print(f\"[blue]Overview doc:[/blue] {result.get('overview', 'unknown')}\")\n            console.print(f\"[blue]Architecture doc:[/blue] {result.get('architecture', 'unknown')}\")\n            console.print(f\"[blue]Modules documented:[/blue] {result.get('modules', 0)}\")\n            console.print()\n        \n        console.print(\"[bold green]✓ Build completed successfully![/bold green]\")\n    except Exception as e:\n        logger.error(f\"Failed to build project: {e}\")\n        console.print(f\"[red]✗ Failed: {e}[/red]\")\n        import traceback\n        traceback.print_exc()",
+    "chunk_type": "function",
+    "start_line": 41,
+    "end_line": 175,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_build_40_docstring_8",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_build_40",
+    "content": "Build documentation and indexes",
+    "chunk_type": "docstring",
+    "start_line": 41,
+    "end_line": 42,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_chat_177_9",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_chat_177",
+    "content": "def chat(query: str = typer.Option(None, \"--query\", help=\"Query text\"),\n         interactive: bool = typer.Option(True, \"--interactive\", help=\"Interactive mode\"),\n         k: int = typer.Option(5, \"--k\", help=\"Number of results to retrieve\")):\n    \"\"\"Start interactive chat\"\"\"\n    console.print(\"[bold cyan]Starting CodeMind chat...[/bold cyan]\")\n    \n    try:\n        # Initialize components\n        config_manager = ConfigManager(\".\")\n        config = config_manager.load()\n        \n        from codemind.chat.manager import ChatManager\n        chat_manager = ChatManager(\n            llm_config=config.llm,\n            embedding_config=config.embedding\n        )\n        \n        if query:\n            # Non-interactive mode\n            console.print(f\"[blue]Query:[/blue] {query}\")\n            result = chat_manager.chat(query, k=k)\n            console.print(\"[bold green]Answer:[/bold green]\")\n            console.print(result[\"answer\"])\n            \n            if result[\"sources\"]:\n                console.print(\"[bold blue]Sources:[/bold blue]\")\n                for i, source in enumerate(result[\"sources\"]):\n                    console.print(f\"[blue]{i+1}.[/blue] Score: {source['score']:.2f}\")\n                    console.print(f\"   File: {source.get('metadata', {}).get('file_path', 'unknown')}\")\n        else:\n            # Interactive mode\n            console.print(\"[green]✓ Chat session started![/green]\")\n            console.print(\"[blue]Type 'exit' to quit[/blue]\")\n            console.print()\n            \n            while True:\n                try:\n                    user_input = console.input(\"[bold cyan]You:[/bold cyan] \")\n                    if user_input.lower() == 'exit':\n                        break\n                    \n                    result = chat_manager.chat(user_input, k=k)\n                    console.print(\"[bold green]CodeMind:[/bold green]\")\n                    console.print(result[\"answer\"])\n                    \n                    if result[\"sources\"]:\n                        console.print(\"[bold blue]Sources:[/bold blue]\")\n                        for i, source in enumerate(result[\"sources\"]):\n                            console.print(f\"[blue]{i+1}.[/blue] Score: {source['score']:.2f}\")\n                            console.print(f\"   File: {source.get('metadata', {}).get('file_path', 'unknown')}\")\n                    console.print()\n                except KeyboardInterrupt:\n                    break\n    except Exception as e:\n        logger.error(f\"Failed to start chat: {e}\")\n        console.print(f\"[red]✗ Failed: {e}[/red]\")",
+    "chunk_type": "function",
+    "start_line": 178,
+    "end_line": 233,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_chat_177_docstring_10",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_chat_177",
+    "content": "Start interactive chat",
+    "chunk_type": "docstring",
+    "start_line": 178,
+    "end_line": 179,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_chat_177_11",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_chat_177",
+    "content": "def chat(query: str = typer.Option(None, \"--query\", help=\"Query text\"),\n         interactive: bool = typer.Option(True, \"--interactive\", help=\"Interactive mode\"),\n         k: int = typer.Option(5, \"--k\", help=\"Number of results to retrieve\")):\n    \"\"\"Start interactive chat\"\"\"\n    console.print(\"[bold cyan]Starting CodeMind chat...[/bold cyan]\")\n    \n    try:\n        # Initialize components\n        config_manager = ConfigManager(\".\")\n        config = config_manager.load()\n        \n        from codemind.chat.manager import ChatManager\n        chat_manager = ChatManager(\n            llm_config=config.llm,\n            embedding_config=config.embedding\n        )\n        \n        if query:\n            # Non-interactive mode\n            console.print(f\"[blue]Query:[/blue] {query}\")\n            result = chat_manager.chat(query, k=k)\n            console.print(\"[bold green]Answer:[/bold green]\")\n            console.print(result[\"answer\"])\n            \n            if result[\"sources\"]:\n                console.print(\"[bold blue]Sources:[/bold blue]\")\n                for i, source in enumerate(result[\"sources\"]):\n                    console.print(f\"[blue]{i+1}.[/blue] Score: {source['score']:.2f}\")\n                    console.print(f\"   File: {source.get('metadata', {}).get('file_path', 'unknown')}\")\n        else:\n            # Interactive mode\n            console.print(\"[green]✓ Chat session started![/green]\")\n            console.print(\"[blue]Type 'exit' to quit[/blue]\")\n            console.print()\n            \n            while True:\n                try:\n                    user_input = console.input(\"[bold cyan]You:[/bold cyan] \")\n                    if user_input.lower() == 'exit':\n                        break\n                    \n                    result = chat_manager.chat(user_input, k=k)\n                    console.print(\"[bold green]CodeMind:[/bold green]\")\n                    console.print(result[\"answer\"])\n                    \n                    if result[\"sources\"]:\n                        console.print(\"[bold blue]Sources:[/bold blue]\")\n                        for i, source in enumerate(result[\"sources\"]):\n                            console.print(f\"[blue]{i+1}.[/blue] Score: {source['score']:.2f}\")\n                            console.print(f\"   File: {source.get('metadata', {}).get('file_path', 'unknown')}\")\n                    console.print()\n                except KeyboardInterrupt:\n                    break\n    except Exception as e:\n        logger.error(f\"Failed to start chat: {e}\")\n        console.print(f\"[red]✗ Failed: {e}[/red]\")",
+    "chunk_type": "function",
+    "start_line": 178,
+    "end_line": 233,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_chat_177_docstring_12",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_chat_177",
+    "content": "Start interactive chat",
+    "chunk_type": "docstring",
+    "start_line": 178,
+    "end_line": 179,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_status_235_13",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_status_235",
+    "content": "def status():\n    \"\"\"Check project status\"\"\"\n    console.print(\"[bold cyan]Checking project status...[/bold cyan]\")\n    \n    try:\n        storage_manager = StorageManager()\n        md5_cache = MD5Cache()\n        \n        # Load data from file\n        symbols, chunks = storage_manager.load_from_file()\n        \n        # Get statistics\n        cache_count = len(md5_cache.get_cache())\n        symbol_count = len(symbols)\n        chunk_count = len(chunks)\n        chroma_stats = storage_manager.get_chroma_storage().get_stats()\n        \n        # Display status\n        console.print(\"[bold blue]Project Status:[/bold blue]\")\n        console.print(f\"[green]✓ Cache entries:[/green] {cache_count}\")\n        console.print(f\"[green]✓ Symbols:[/green] {symbol_count}\")\n        console.print(f\"[green]✓ Code chunks:[/green] {chunk_count}\")\n        console.print(f\"[green]✓ ChromaDB entries:[/green] {chroma_stats.get('count', 0)}\")\n        \n        if symbol_count == 0:\n            console.print(\"[yellow]⚠ No data found. Run 'codemind build' to analyze the project.[/yellow]\")\n        \n    except Exception as e:\n        logger.error(f\"Failed to check status: {e}\")\n        console.print(f\"[red]✗ Failed: {e}[/red]\")",
+    "chunk_type": "function",
+    "start_line": 236,
+    "end_line": 265,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_status_235_docstring_14",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_status_235",
+    "content": "Check project status",
+    "chunk_type": "docstring",
+    "start_line": 236,
+    "end_line": 237,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_status_235_15",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_status_235",
+    "content": "def status():\n    \"\"\"Check project status\"\"\"\n    console.print(\"[bold cyan]Checking project status...[/bold cyan]\")\n    \n    try:\n        storage_manager = StorageManager()\n        md5_cache = MD5Cache()\n        \n        # Load data from file\n        symbols, chunks = storage_manager.load_from_file()\n        \n        # Get statistics\n        cache_count = len(md5_cache.get_cache())\n        symbol_count = len(symbols)\n        chunk_count = len(chunks)\n        chroma_stats = storage_manager.get_chroma_storage().get_stats()\n        \n        # Display status\n        console.print(\"[bold blue]Project Status:[/bold blue]\")\n        console.print(f\"[green]✓ Cache entries:[/green] {cache_count}\")\n        console.print(f\"[green]✓ Symbols:[/green] {symbol_count}\")\n        console.print(f\"[green]✓ Code chunks:[/green] {chunk_count}\")\n        console.print(f\"[green]✓ ChromaDB entries:[/green] {chroma_stats.get('count', 0)}\")\n        \n        if symbol_count == 0:\n            console.print(\"[yellow]⚠ No data found. Run 'codemind build' to analyze the project.[/yellow]\")\n        \n    except Exception as e:\n        logger.error(f\"Failed to check status: {e}\")\n        console.print(f\"[red]✗ Failed: {e}[/red]\")",
+    "chunk_type": "function",
+    "start_line": 236,
+    "end_line": 265,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_status_235_docstring_16",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_status_235",
+    "content": "Check project status",
+    "chunk_type": "docstring",
+    "start_line": 236,
+    "end_line": 237,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_clean_267_17",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_clean_267",
+    "content": "def clean(cache: bool = typer.Option(False, \"--cache\", help=\"Clean cache only\"),\n          vectors: bool = typer.Option(False, \"--vectors\", help=\"Clean vectors only\"),\n          all: bool = typer.Option(False, \"--all\", help=\"Clean all\")):\n    \"\"\"Clean cache and indexes\"\"\"\n    console.print(\"[bold cyan]Cleaning CodeMind project...[/bold cyan]\")\n    \n    try:\n        storage_manager = StorageManager()\n        md5_cache = MD5Cache()\n        \n        if all:\n            # Clean everything\n            md5_cache.clear()\n            storage_manager.clear_all()\n            console.print(\"[green]✓ All data cleaned![/green]\")\n        elif cache:\n            # Clean only cache\n            md5_cache.clear()\n            console.print(\"[green]✓ Cache cleaned![/green]\")\n        elif vectors:\n            # Clean only vectors\n            storage_manager.get_chroma_storage().clear()\n            console.print(\"[green]✓ Vectors cleaned![/green]\")\n        else:\n            # Clean default (cache + files)\n            md5_cache.clear()\n            storage_manager.get_file_storage().clear()\n            console.print(\"[green]✓ Cache and files cleaned![/green]\")\n            \n    except Exception as e:\n        logger.error(f\"Failed to clean project: {e}\")\n        console.print(f\"[red]✗ Failed: {e}[/red]\")",
+    "chunk_type": "function",
+    "start_line": 268,
+    "end_line": 299,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_clean_267_docstring_18",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_clean_267",
+    "content": "Clean cache and indexes",
+    "chunk_type": "docstring",
+    "start_line": 268,
+    "end_line": 269,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_clean_267_19",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_clean_267",
+    "content": "def clean(cache: bool = typer.Option(False, \"--cache\", help=\"Clean cache only\"),\n          vectors: bool = typer.Option(False, \"--vectors\", help=\"Clean vectors only\"),\n          all: bool = typer.Option(False, \"--all\", help=\"Clean all\")):\n    \"\"\"Clean cache and indexes\"\"\"\n    console.print(\"[bold cyan]Cleaning CodeMind project...[/bold cyan]\")\n    \n    try:\n        storage_manager = StorageManager()\n        md5_cache = MD5Cache()\n        \n        if all:\n            # Clean everything\n            md5_cache.clear()\n            storage_manager.clear_all()\n            console.print(\"[green]✓ All data cleaned![/green]\")\n        elif cache:\n            # Clean only cache\n            md5_cache.clear()\n            console.print(\"[green]✓ Cache cleaned![/green]\")\n        elif vectors:\n            # Clean only vectors\n            storage_manager.get_chroma_storage().clear()\n            console.print(\"[green]✓ Vectors cleaned![/green]\")\n        else:\n            # Clean default (cache + files)\n            md5_cache.clear()\n            storage_manager.get_file_storage().clear()\n            console.print(\"[green]✓ Cache and files cleaned![/green]\")\n            \n    except Exception as e:\n        logger.error(f\"Failed to clean project: {e}\")\n        console.print(f\"[red]✗ Failed: {e}[/red]\")",
+    "chunk_type": "function",
+    "start_line": 268,
+    "end_line": 299,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_clean_267_docstring_20",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_cli_commands.py_clean_267",
+    "content": "Clean cache and indexes",
+    "chunk_type": "docstring",
+    "start_line": 268,
+    "end_line": 269,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py"
+    }
+  },
+  {
+    "id": "chunk_mod__home_dong_mytool_codeAnalysis_codemind_core_logger.py_docstring_0",
+    "symbol_id": "mod__home_dong_mytool_codeAnalysis_codemind_core_logger.py",
+    "content": "Logging configuration\"\"\"\n\nimport logging\nimport os\nfrom pathlib import Path\n\ndef setup_logger():\n    \"\"\"Setup logger",
+    "chunk_type": "docstring",
+    "start_line": 1,
+    "end_line": 2,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/core/logger.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_core_logger.py_setup_logger_6_1",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_core_logger.py_setup_logger_6",
+    "content": "def setup_logger():\n    \"\"\"Setup logger\"\"\"\n    logger = logging.getLogger(\"codemind\")\n    logger.setLevel(logging.INFO)\n    \n    # Remove existing handlers\n    for handler in logger.handlers:\n        logger.removeHandler(handler)\n    \n    # Console handler - set to DEBUG to show all details\n    console_handler = logging.StreamHandler()\n    console_handler.setLevel(logging.DEBUG)\n    console_formatter = logging.Formatter(\n        \"%(message)s\"\n    )\n    console_handler.setFormatter(console_formatter)\n    logger.addHandler(console_handler)\n    \n    # File handler\n    log_dir = Path(\".codemind/logs\")\n    log_dir.mkdir(exist_ok=True, parents=True)\n    log_file = log_dir / \"codemind.log\"\n    \n    file_handler = logging.FileHandler(log_file, encoding='utf-8')\n    file_handler.setLevel(logging.DEBUG)\n    file_formatter = logging.Formatter(\n        \"%(asctime)s - %(name)s - %(levelname)s - %(message)s\"\n    )\n    file_handler.setFormatter(file_formatter)\n    logger.addHandler(file_handler)\n    \n    return logger",
+    "chunk_type": "function",
+    "start_line": 7,
+    "end_line": 38,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/core/logger.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_core_logger.py_setup_logger_6_docstring_2",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_core_logger.py_setup_logger_6",
+    "content": "Setup logger",
+    "chunk_type": "docstring",
+    "start_line": 7,
+    "end_line": 8,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/core/logger.py"
+    }
+  },
+  {
+    "id": "chunk_mod__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_docstring_0",
+    "symbol_id": "mod__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py",
+    "content": "LLM agent for document generation\"\"\"\n\nimport openai\nfrom typing import List, Dict, Optional, Generator, Union\nimport json\nimport logging\nfrom enum import Enum\n\nlogger = logging.getLogger(__name__)\n\n\nclass LLMProvider(str, Enum):\n    \"\"\"LLM provider enum",
+    "chunk_type": "docstring",
+    "start_line": 1,
+    "end_line": 2,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_LLMProvider_11_header_1",
+    "symbol_id": "cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_LLMProvider_11",
+    "content": "class LLMProvider(str, Enum):\n    \"\"\"LLM provider enum\"\"\"\n",
+    "chunk_type": "class_header",
+    "start_line": 12,
+    "end_line": 17,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_LLMProvider_11_docstring_2",
+    "symbol_id": "cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_LLMProvider_11",
+    "content": "LLM provider enum",
+    "chunk_type": "docstring",
+    "start_line": 12,
+    "end_line": 13,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_LLMAgent_20_header_3",
+    "symbol_id": "cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_LLMAgent_20",
+    "content": "class LLMAgent:\n    \"\"\"LLM interaction wrapper, supporting multiple LLM providers\"\"\"\n",
+    "chunk_type": "class_header",
+    "start_line": 21,
+    "end_line": 26,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_LLMAgent_20_docstring_4",
+    "symbol_id": "cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_LLMAgent_20",
+    "content": "LLM interaction wrapper, supporting multiple LLM providers",
+    "chunk_type": "docstring",
+    "start_line": 21,
+    "end_line": 22,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py___init___51_5",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py___init___51",
+    "content": "def __init__(self, config: Dict):\n        self.config = config\n        self.provider = LLMProvider(config.get('provider', 'ollama'))\n        self.model = config.get('model', self.PROVIDER_CONFIGS[self.provider]['default_model'])\n        self.max_tokens = config.get('max_tokens', 4000)\n        self.temperature = config.get('temperature', 0.3)\n        \n        # Initialize client\n        self.client = self._init_client()",
+    "chunk_type": "function",
+    "start_line": 52,
+    "end_line": 60,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__init_client_61_6",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__init_client_61",
+    "content": "def _init_client(self) -> openai.OpenAI:\n        \"\"\"Initialize OpenAI client based on provider\"\"\"\n        provider_config = self.PROVIDER_CONFIGS[self.provider]\n        \n        # Get API Key\n        api_key = self.config.get('api_key')\n        if provider_config['requires_api_key'] and not api_key:\n            raise ValueError(f\"{self.provider.value} requires api_key\")\n        \n        # For providers that don't require API key (like Ollama), set a dummy value\n        if not api_key:\n            api_key = \"dummy_key\"  # OpenAI client requires this parameter\n        \n        # Get base_url\n        base_url = self.config.get('base_url', provider_config['default_base_url'])\n        \n        return openai.OpenAI(\n            api_key=api_key,\n            base_url=base_url\n        )",
+    "chunk_type": "function",
+    "start_line": 62,
+    "end_line": 81,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__init_client_61_docstring_7",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__init_client_61",
+    "content": "Initialize OpenAI client based on provider",
+    "chunk_type": "docstring",
+    "start_line": 62,
+    "end_line": 63,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_generate_document_82_8",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_generate_document_82",
+    "content": "def generate_document(self, prompt: str, context: Dict) -> str:\n        \"\"\"\n        Generate document content\n        \n        Args:\n            prompt: Prompt template\n            context: Context data (will be formatted as JSON and inserted into prompt)\n        \n        Returns:\n            Generated Markdown content\n        \"\"\"\n        from rich.console import Console\n        console = Console()\n        \n        full_prompt = self._assemble_prompt(prompt, context)\n        \n        # Display LLM request details directly to user\n        console.print(\"[bold blue]=== LLM Request Details ===[/bold blue]\")\n        console.print(f\"[green]Model:[/green] {self.model}\")\n        console.print(f\"[green]Provider:[/green] {self.provider.value}\")\n        console.print(f\"[green]Base URL:[/green] {self.client.base_url}\")\n        console.print(f\"[green]Temperature:[/green] {self.temperature}\")\n        console.print(f\"[green]Max Tokens:[/green] {self.max_tokens}\")\n        console.print(f\"[green]Prompt length:[/green] {len(full_prompt)} characters\")\n        console.print()\n        \n        console.print(\"[bold cyan]System Prompt:[/bold cyan]\")\n        console.print(\"You are a technical documentation expert. Generate clear, structured Markdown documentation based on the provided code context.\")\n        console.print()\n        \n        console.print(\"[bold cyan]User Prompt (Preview):[/bold cyan]\")\n        console.print(f\"{full_prompt[:1000]}...\")\n        console.print()\n        \n        try:\n            console.print(\"[bold blue]Sending request to LLM...[/bold blue]\")\n            console.print(\"[yellow]This may take a few moments...[/yellow]\")\n            console.print()\n            \n            response = self.client.chat.completions.create(\n                model=self.model,\n                messages=[\n                    {\n                        \"role\": \"system\", \n                        \"content\": \"You are a technical documentation expert. Generate clear, structured Markdown documentation based on the provided code context.\"\n                    },\n                    {\"role\": \"user\", \"content\": full_prompt}\n                ],\n                max_tokens=self.max_tokens,\n                temperature=self.temperature\n            )\n            \n            # Display LLM response details directly to user\n            console.print(\"[bold blue]=== LLM Response Details ===[/bold blue]\")\n            console.print(f\"[green]Response status:[/green] Success\")\n            console.print(f\"[green]Usage:[/green] Prompt tokens: {response.usage.prompt_tokens}, Completion tokens: {response.usage.completion_tokens}, Total tokens: {response.usage.total_tokens}\")\n            console.print(f\"[green]Response ID:[/green] {response.id}\")\n            console.print()\n            \n            content = response.choices[0].message.content\n            content = self._clean_markdown(content)\n            \n            console.print(\"[bold cyan]Generated Content (Preview):[/bold cyan]\")\n            console.print(f\"{content[:1000]}...\")\n            console.print()\n            console.print(f\"[green]✓ Content generated successfully! Total length: {len(content)} characters[/green]\")\n            console.print()\n            \n            return content\n            \n        except Exception as e:\n            console.print(f\"[red]✗ LLM generation failed: {e}[/red]\")\n            import traceback\n            traceback.print_exc()\n            raise",
+    "chunk_type": "function",
+    "start_line": 83,
+    "end_line": 157,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_generate_document_82_docstring_9",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_generate_document_82",
+    "content": "\n        Generate document content\n        \n        Args:\n            prompt: Prompt template\n            context: Context data (will be formatted as JSON and inserted into prompt)\n        \n        Returns:\n            Generated Markdown content\n        ",
+    "chunk_type": "docstring",
+    "start_line": 83,
+    "end_line": 84,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_generate_stream_158_10",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_generate_stream_158",
+    "content": "def generate_stream(self, prompt: str) -> Generator[str, None, None]:\n        \"\"\"Stream generation (for chat command)\"\"\"\n        try:\n            stream = self.client.chat.completions.create(\n                model=self.model,\n                messages=[{\"role\": \"user\", \"content\": prompt}],\n                stream=True,\n                max_tokens=self.max_tokens\n            )\n            \n            for chunk in stream:\n                if chunk.choices[0].delta.content:\n                    yield chunk.choices[0].delta.content\n                    \n        except Exception as e:\n            logger.error(f\"Stream generation failed: {e}\")\n            raise",
+    "chunk_type": "function",
+    "start_line": 159,
+    "end_line": 175,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_generate_stream_158_docstring_11",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_generate_stream_158",
+    "content": "Stream generation (for chat command)",
+    "chunk_type": "docstring",
+    "start_line": 159,
+    "end_line": 160,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_chat_176_12",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_chat_176",
+    "content": "def chat(self, messages: List[Dict], stream: bool = False) -> Union[str, Generator[str, None, None]]:\n        \"\"\"\n        General chat interface, supporting multi-turn conversations\n        \n        Args:\n            messages: Message list [{\"role\": \"user\", \"content\": \"...\"}, ...]\n            stream: Whether to use streaming output\n        \n        Returns:\n            Generated response or streaming generator\n        \"\"\"\n        try:\n            if stream:\n                stream_response = self.client.chat.completions.create(\n                    model=self.model,\n                    messages=messages,\n                    stream=True,\n                    max_tokens=self.max_tokens,\n                    temperature=self.temperature\n                )\n                \n                def generator():\n                    for chunk in stream_response:\n                        if chunk.choices[0].delta.content:\n                            yield chunk.choices[0].delta.content\n                \n                return generator()\n            else:\n                response = self.client.chat.completions.create(\n                    model=self.model,\n                    messages=messages,\n                    max_tokens=self.max_tokens,\n                    temperature=self.temperature\n                )\n                \n                return response.choices[0].message.content\n                \n        except Exception as e:\n            logger.error(f\"Chat failed: {e}\")\n            raise",
+    "chunk_type": "function",
+    "start_line": 177,
+    "end_line": 216,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_chat_176_docstring_13",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_chat_176",
+    "content": "\n        General chat interface, supporting multi-turn conversations\n        \n        Args:\n            messages: Message list [{\"role\": \"user\", \"content\": \"...\"}, ...]\n            stream: Whether to use streaming output\n        \n        Returns:\n            Generated response or streaming generator\n        ",
+    "chunk_type": "docstring",
+    "start_line": 177,
+    "end_line": 178,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__assemble_prompt_217_14",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__assemble_prompt_217",
+    "content": "def _assemble_prompt(self, template: str, context: Dict) -> str:\n        \"\"\"Assemble prompt\"\"\"\n        context_str = json.dumps(context, indent=2, default=str, ensure_ascii=False)\n        prompt = template.replace(\"{{context}}\", context_str)\n        return prompt",
+    "chunk_type": "function",
+    "start_line": 218,
+    "end_line": 222,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__assemble_prompt_217_docstring_15",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__assemble_prompt_217",
+    "content": "Assemble prompt",
+    "chunk_type": "docstring",
+    "start_line": 218,
+    "end_line": 219,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__clean_markdown_223_16",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__clean_markdown_223",
+    "content": "def _clean_markdown(self, content: str) -> str:\n        \"\"\"Clean LLM output markdown format\"\"\"\n        lines = content.split('\\n')\n        if lines and lines[0].strip().startswith('```'):\n            lines = lines[1:]\n        if lines and lines[-1].strip() == '```':\n            lines = lines[:-1]\n        return '\\n'.join(lines).strip()",
+    "chunk_type": "function",
+    "start_line": 224,
+    "end_line": 231,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__clean_markdown_223_docstring_17",
+    "symbol_id": "func__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py__clean_markdown_223",
+    "content": "Clean LLM output markdown format",
+    "chunk_type": "docstring",
+    "start_line": 224,
+    "end_line": 225,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_PromptTemplates_233_header_18",
+    "symbol_id": "cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_PromptTemplates_233",
+    "content": "class PromptTemplates:\n    \"\"\"Prompt templates library\"\"\"\n",
+    "chunk_type": "class_header",
+    "start_line": 234,
+    "end_line": 239,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  },
+  {
+    "id": "chunk_cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_PromptTemplates_233_docstring_19",
+    "symbol_id": "cls__home_dong_mytool_codeAnalysis_codemind_generator_llm_agent.py_PromptTemplates_233",
+    "content": "Prompt templates library",
+    "chunk_type": "docstring",
+    "start_line": 234,
+    "end_line": 235,
+    "token_count": 0,
+    "context": {
+      "file_path": "/home/dong/mytool/codeAnalysis/codemind/generator/llm_agent.py"
+    }
+  }
+]

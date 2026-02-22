@@ -1,0 +1,64 @@
+Metadata-Version: 2.1
+Name: codemind
+Version: 0.1.0
+Summary: AI-powered code understanding and documentation tool
+Home-page: https://github.com/codemind-dev/codemind
+Author: CodeMind Team
+Author-email: contact@codemind.dev
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+# CodeMind
+
+AI-powered code understanding and documentation tool.
+
+## Features
+
+- **Automatic Documentation**: Analyze codebase and generate structured Wiki documentation
+- **Smart Q&A**: Answer code-related questions based on context (RAG architecture)
+- **Code Graph**: Build dependency relationships between functions/classes/modules
+- **Incremental Updates**: Support partial updates after code changes
+
+## Installation
+
+```bash
+pip install -e .
+```
+
+## Usage
+
+### Initialize project
+```bash
+codemind init
+```
+
+### Build documentation
+```bash
+codemind build
+```
+
+### Start chat
+```bash
+codemind chat
+```
+
+### Check status
+```bash
+codemind status
+```
+
+### Clean cache
+```bash
+codemind clean
+```
+
+## Configuration
+
+Config file: `.codemind/config.json`
+
+## License
+
+MIT

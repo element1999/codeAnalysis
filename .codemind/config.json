@@ -1,0 +1,39 @@
+{
+  "project": {
+    "name": "codeAnalysis",
+    "path": "/home/dong/mytool/codeAnalysis",
+    "language": "python",
+    "entry_points": [
+      "src/main.py"
+    ]
+  },
+  "llm": {
+    "provider": "glm",
+    "model": "glm-4.6v",
+    "api_key": "78c7f1f1ba1d4106a32e0acf9c6f2445.n7RSTt8c8kfIxAOu",
+    "base_url": "https://open.bigmodel.cn/api/paas/v4",
+    "temperature": 0.3,
+    "max_tokens": 4000
+  },
+  "embedding": {
+    "provider": "fastembed",
+    "model": "BAAI/bge-small-en-v1.5",
+    "dimension": 384
+  },
+  "parser": {
+    "exclude_dirs": [
+      ".git",
+      "node_modules",
+      "__pycache__",
+      ".codemind"
+    ],
+    "include_patterns": [
+      "*.py"
+    ],
+    "max_file_size": 1048576
+  },
+  "generator": {
+    "doc_language": "zh",
+    "max_workers": 4
+  }
+}
