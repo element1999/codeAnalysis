@@ -32,6 +32,7 @@ class LLMConfig(BaseModel):
     base_url: Optional[str] = Field(default=None, description="Base URL")
     temperature: float = Field(default=0.3, description="Temperature")
     max_tokens: int = Field(default=4000, description="Max tokens")
+    mock: bool = Field(default=False, description="Enable mock mode for LLM")
 
 class EmbeddingConfig(BaseModel):
     """Embedding configuration"""

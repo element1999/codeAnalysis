@@ -1,5 +1,5 @@
 from typing import Optional, Dict, Any
-from codemind.generator import DocumentGenerator
+from codemind.generator.document_generator import DocumentGenerator
 from codemind.config.schemas import LLMConfig, GeneratorConfig
 
 
@@ -37,7 +37,8 @@ class GeneratorManager:
             "api_key": self.llm_config.api_key,
             "base_url": self.llm_config.base_url,
             "temperature": self.llm_config.temperature,
-            "max_tokens": self.llm_config.max_tokens
+            "max_tokens": self.llm_config.max_tokens,
+            "mock": self.llm_config.mock
         }
         
         generator = DocumentGenerator(
@@ -69,7 +70,8 @@ class GeneratorManager:
             "api_key": self.llm_config.api_key,
             "base_url": self.llm_config.base_url,
             "temperature": self.llm_config.temperature,
-            "max_tokens": self.llm_config.max_tokens
+            "max_tokens": self.llm_config.max_tokens,
+            "mock": self.llm_config.mock
         }
         
         generator = DocumentGenerator(

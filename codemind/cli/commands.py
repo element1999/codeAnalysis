@@ -2,6 +2,7 @@
 
 import typer
 import os
+import logging
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
@@ -24,9 +25,18 @@ app = typer.Typer(
 )
 
 @app.command()
-def init(project_path: str = typer.Option(".", help="Project path")):
+def init(project_path: str = typer.Option(".", help="Project path"),
+         debug: bool = typer.Option(True, "--debug/--no-debug", help="Enable debug mode")):
     """Initialize CodeMind project"""
+    # Set logger level based on debug flag
+    if debug:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
+    
     console.print("[bold cyan]Initializing CodeMind project...[/bold cyan]")
+    console.print(f"[blue]Debug mode:[/blue] {'Enabled' if debug else 'Disabled'}")
+    console.print()
     
     try:
         config_manager = ConfigManager(project_path)
@@ -39,9 +49,19 @@ def init(project_path: str = typer.Option(".", help="Project path")):
 
 @app.command()
 def build(full: bool = typer.Option(False, "--full", help="Full rebuild"),
-          docs_only: bool = typer.Option(False, "--docs-only", help="Only generate docs")):
+          docs_only: bool = typer.Option(False, "--docs-only", help="Only generate docs"),
+          debug: bool = typer.Option(True, "--debug/--no-debug", help="Enable debug mode"),
+          mock: bool = typer.Option(False, "--mock", help="Enable mock mode for LLM")):
     """Build documentation and indexes"""
+    # Set logger level based on debug flag
+    if debug:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
+    
     console.print("[bold cyan]Building CodeMind project...[/bold cyan]")
+    console.print(f"[blue]Debug mode:[/blue] {'Enabled' if debug else 'Disabled'}")
+    console.print(f"[blue]Mock mode:[/blue] {'Enabled' if mock else 'Disabled'}")
     console.print()
     
     try:
@@ -144,9 +164,16 @@ def build(full: bool = typer.Option(False, "--full", help="Full rebuild"),
             console.print()
             
             from codemind.generator.manager import GeneratorManager
+            from codemind.config.schemas import LLMConfig
             config = config_manager.load()
+            
+            # Create a copy of the LLM config and add mock flag
+            llm_config_data = config.llm.model_dump()
+            llm_config_data['mock'] = mock
+            llm_config = LLMConfig(**llm_config_data)
+            
             generator_manager = GeneratorManager(
-                llm_config=config.llm,
+                llm_config=llm_config,
                 generator_config=config.generator
             )
             
@@ -155,6 +182,7 @@ def build(full: bool = typer.Option(False, "--full", help="Full rebuild"),
             console.print(f"  Storage path: {storage_manager.storage_path}")
             console.print(f"  LLM provider: {config.llm.provider}")
             console.print(f"  LLM model: {config.llm.model}")
+            console.print(f"  Mock mode: {mock}")
             console.print()
             
             result = generator_manager.generate_docs(".", storage_manager.storage_path)
@@ -177,18 +205,33 @@ def build(full: bool = typer.Option(False, "--full", help="Full rebuild"),
 @app.command()
 def chat(query: str = typer.Option(None, "--query", help="Query text"),
          interactive: bool = typer.Option(True, "--interactive", help="Interactive mode"),
-         k: int = typer.Option(5, "--k", help="Number of results to retrieve")):
+         k: int = typer.Option(5, "--k", help="Number of results to retrieve"),
+         debug: bool = typer.Option(True, "--debug/--no-debug", help="Enable debug mode"),
+         mock: bool = typer.Option(False, "--mock", help="Enable mock mode for LLM")):
     """Start interactive chat"""
+    # Set logger level based on debug flag
+    if debug:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
+    
     console.print("[bold cyan]Starting CodeMind chat...[/bold cyan]")
+    console.print(f"[blue]Debug mode:[/blue] {'Enabled' if debug else 'Disabled'}")
+    console.print(f"[blue]Mock mode:[/blue] {'Enabled' if mock else 'Disabled'}")
+    console.print()
     
     try:
         # Initialize components
         config_manager = ConfigManager(".")
         config = config_manager.load()
         
+        # Create a copy of the LLM config and add mock flag
+        llm_config = config.llm.model_dump()
+        llm_config['mock'] = mock
+        
         from codemind.chat.manager import ChatManager
         chat_manager = ChatManager(
-            llm_config=config.llm,
+            llm_config=llm_config,
             embedding_config=config.embedding
         )
         
@@ -233,9 +276,17 @@ def chat(query: str = typer.Option(None, "--query", help="Query text"),
         console.print(f"[red]✗ Failed: {e}[/red]")
 
 @app.command()
-def status():
+def status(debug: bool = typer.Option(True, "--debug/--no-debug", help="Enable debug mode")):
     """Check project status"""
+    # Set logger level based on debug flag
+    if debug:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
+    
     console.print("[bold cyan]Checking project status...[/bold cyan]")
+    console.print(f"[blue]Debug mode:[/blue] {'Enabled' if debug else 'Disabled'}")
+    console.print()
     
     try:
         storage_manager = StorageManager()
@@ -267,9 +318,18 @@ def status():
 @app.command()
 def clean(cache: bool = typer.Option(False, "--cache", help="Clean cache only"),
           vectors: bool = typer.Option(False, "--vectors", help="Clean vectors only"),
-          all: bool = typer.Option(False, "--all", help="Clean all")):
+          all: bool = typer.Option(False, "--all", help="Clean all"),
+          debug: bool = typer.Option(True, "--debug/--no-debug", help="Enable debug mode")):
     """Clean cache and indexes"""
+    # Set logger level based on debug flag
+    if debug:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
+    
     console.print("[bold cyan]Cleaning CodeMind project...[/bold cyan]")
+    console.print(f"[blue]Debug mode:[/blue] {'Enabled' if debug else 'Disabled'}")
+    console.print()
     
     try:
         storage_manager = StorageManager()

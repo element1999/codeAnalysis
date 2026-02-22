@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class DocumentWriter:
-    """Manage document writing and updating"""
+    """Manage document writing and updating with version control"""
     
     def __init__(self, wiki_path: str):
         self.wiki_path = Path(wiki_path)
@@ -18,6 +18,9 @@ class DocumentWriter:
         (self.wiki_path / "modules").mkdir(exist_ok=True)
         (self.wiki_path / "api").mkdir(exist_ok=True)
         (self.wiki_path / "assets").mkdir(exist_ok=True)
+        
+        # Create archive directory for version control
+        (self.wiki_path / "archive").mkdir(exist_ok=True)
     
     def write_document(self, doc: Document):
         """Write single document"""
@@ -46,8 +49,23 @@ class DocumentWriter:
         logger.info(f"✓ Index updated successfully")
     
     def write_documents(self, docs: List[Document]):
-        """Batch write documents"""
+        """Batch write documents with version control"""
+        import datetime
+        
+        # Create archive for current version before writing new documents
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        archive_version_path = self.wiki_path / "archive" / timestamp
+        
         logger.info(f"=== Batch writing {len(docs)} documents ===")
+        logger.info(f"Creating archive for version: {timestamp}")
+        
+        # Archive existing documents
+        self._archive_current_version(archive_version_path)
+        logger.info(f"✓ Current version archived to: {archive_version_path}")
+        
+        # Clean up old archives, keep only last 3 versions
+        self._cleanup_old_archives()
+        logger.info("✓ Old archives cleaned up")
         
         for doc in docs:
             self.write_document(doc)
@@ -141,6 +159,76 @@ class DocumentWriter:
         ]
         
         return "\n".join(lines)
+    
+    def _archive_current_version(self, archive_path: Path):
+        """Archive current version of documents"""
+        import shutil
+        import os
+        
+        # Create archive directory
+        archive_path.mkdir(parents=True, exist_ok=True)
+        logger.info(f"Created archive directory: {archive_path}")
+        
+        # Copy current documents to archive, excluding archive directory itself
+        for root, dirs, files in os.walk(self.wiki_path):
+            # Skip archive directory to avoid recursive archiving
+            if "archive" in dirs:
+                dirs.remove("archive")
+            
+            # Calculate relative path
+            rel_path = os.path.relpath(root, self.wiki_path)
+            if rel_path == '.':
+                rel_path = ''
+            
+            # Create corresponding directory in archive
+            archive_dir = archive_path / rel_path
+            archive_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Copy files
+            for file in files:
+                if file.endswith('.md') or file in ['.index.json', '_sidebar.md', 'README.md']:
+                    src_path = os.path.join(root, file)
+                    dst_path = archive_dir / file
+                    try:
+                        shutil.copy2(src_path, dst_path)
+                        logger.debug(f"Archived: {src_path} -> {dst_path}")
+                    except Exception as e:
+                        logger.error(f"Failed to archive {src_path}: {e}")
+        
+        logger.info(f"✓ Archived current version to: {archive_path}")
+    
+    def _cleanup_old_archives(self):
+        """Clean up old archives, keep only last 3 versions"""
+        import os
+        
+        archive_dir = self.wiki_path / "archive"
+        
+        # Get all archive versions sorted by timestamp (newest first)
+        versions = []
+        for item in os.listdir(archive_dir):
+            item_path = archive_dir / item
+            if item_path.is_dir() and item.isdigit() and len(item) >= 8:  # Check if directory name is a timestamp
+                versions.append((item, item_path))
+        
+        # Sort versions by timestamp (newest first)
+        versions.sort(key=lambda x: x[0], reverse=True)
+        logger.info(f"Found {len(versions)} archive versions")
+        logger.info(f"Versions (newest first): {[v[0] for v in versions]}")
+        
+        # Keep only last 3 versions
+        if len(versions) > 3:
+            versions_to_delete = versions[3:]
+            logger.info(f"Will delete {len(versions_to_delete)} old versions")
+            
+            for version_name, version_path in versions_to_delete:
+                try:
+                    import shutil
+                    shutil.rmtree(version_path)
+                    logger.info(f"✓ Deleted old archive: {version_name}")
+                except Exception as e:
+                    logger.error(f"Failed to delete old archive {version_name}: {e}")
+        else:
+            logger.info(f"No old archives to delete (keeping all {len(versions)} versions)")
     
     def clean(self):
         """Clean all generated documents"""

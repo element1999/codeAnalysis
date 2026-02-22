@@ -7,7 +7,7 @@ from pathlib import Path
 def setup_logger():
     """Setup logger"""
     logger = logging.getLogger("codemind")
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     
     # Remove existing handlers
     for handler in logger.handlers:
