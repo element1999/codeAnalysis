@@ -2,13 +2,13 @@
   "00-overview.md": {
     "title": "\u9879\u76ee\u6982\u89c8",
     "type": "overview",
-    "updated_at": "2026-02-22T23:54:15.746735",
+    "updated_at": "2026-02-23T00:09:20.503303",
     "symbols": []
   },
   "01-architecture.md": {
     "title": "\u67b6\u6784\u8bbe\u8ba1",
     "type": "architecture",
-    "updated_at": "2026-02-22T23:54:15.481742",
+    "updated_at": "2026-02-23T00:00:45.678015",
     "symbols": []
   },
   "modules/_home_dong_mytool_codeAnalysis_codemind_generator_document_writer.md": {
@@ -250,6 +250,54 @@
     "title": "\u6a21\u5757: codemind_generator",
     "type": "module",
     "updated_at": "2026-02-22T23:54:15.730342",
+    "symbols": []
+  },
+  "modules/CLI_Module.md": {
+    "title": "\u6a21\u5757: CLI Module",
+    "type": "module",
+    "updated_at": "2026-02-23T00:01:21.299812",
+    "symbols": []
+  },
+  "modules/Chat_Module.md": {
+    "title": "\u6a21\u5757: Chat Module",
+    "type": "module",
+    "updated_at": "2026-02-23T00:02:13.844702",
+    "symbols": []
+  },
+  "modules/Config_Module.md": {
+    "title": "\u6a21\u5757: Config Module",
+    "type": "module",
+    "updated_at": "2026-02-23T00:02:55.893783",
+    "symbols": []
+  },
+  "modules/Core_Module.md": {
+    "title": "\u6a21\u5757: Core Module",
+    "type": "module",
+    "updated_at": "2026-02-23T00:03:19.695847",
+    "symbols": []
+  },
+  "modules/Embedding_Module.md": {
+    "title": "\u6a21\u5757: Embedding Module",
+    "type": "module",
+    "updated_at": "2026-02-23T00:04:19.808039",
+    "symbols": []
+  },
+  "modules/Generator_Module.md": {
+    "title": "\u6a21\u5757: Generator Module",
+    "type": "module",
+    "updated_at": "2026-02-23T00:05:14.930768",
+    "symbols": []
+  },
+  "modules/Parser_Module.md": {
+    "title": "\u6a21\u5757: Parser Module",
+    "type": "module",
+    "updated_at": "2026-02-23T00:06:53.019688",
+    "symbols": []
+  },
+  "modules/Storage_Module.md": {
+    "title": "\u6a21\u5757: Storage Module",
+    "type": "module",
+    "updated_at": "2026-02-23T00:07:33.219772",
     "symbols": []
   }
 }

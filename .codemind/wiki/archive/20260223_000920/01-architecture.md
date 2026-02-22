@@ -1,0 +1,78 @@
+# 架构设计
+
+# 架构设计
+
+# 架构设计
+
+## 1. 架构概览
+CodeMind 采用分层架构设计，从底层的代码解析到上层的文档生成和用户交互，形成了完整的代码分析和文档生成 pipeline。
+
+## 2. 系统分层
+### 核心层
+- **代码解析**: Tree-sitter 解析器、符号提取器、依赖分析器
+- **存储层**: ChromaDB 向量存储、文件存储、内存数据结构
+- **嵌入层**: FastEmbed 文本嵌入、向量索引管理
+
+### 功能层
+- **文档生成**: LLM 代理、文档生成器、文档写入器、Mermaid 图表生成
+- **智能问答**: RAG 检索、聊天管理器、会话管理
+- **命令行界面**: 命令解析、参数验证、进度展示
+
+### 接口层
+- **CLI 命令**: init、build、chat、status、clean
+- **配置管理**: 项目配置、LLM 配置、生成器配置
+
+## 3. 核心组件
+- **FileScanner**: 扫描项目文件，构建文件树
+- **TreeSitterParser**: 使用 Tree-sitter 解析代码，生成语法树
+- **SymbolExtractor**: 从语法树中提取符号（函数、类、变量等）
+- **DependencyAnalyzer**: 分析符号之间的依赖关系，构建依赖图
+- **ChunkBuilder**: 将代码分割成小块，用于嵌入和检索
+- **StorageManager**: 管理存储，包括向量存储和文件存储
+- **LLMAgent**: 与大语言模型交互，生成文档和回答问题
+- **DocumentGenerator**: 生成结构化文档，包括项目概览、架构设计和模块文档
+- **DocumentWriter**: 写入文档到磁盘，管理版本控制
+- **ChatManager**: 管理聊天会话，处理用户查询
+
+## 4. 数据流
+1. **代码分析流程**: 文件扫描 → 语法解析 → 符号提取 → 依赖分析 → 代码分块 → 向量嵌入 → 存储
+2. **文档生成流程**: 代码映射生成 → 项目背景提取 → 模块划分 → 架构文档生成 → 模块文档生成 → 项目概览生成 → 文档写入
+3. **聊天流程**: 用户查询 → RAG 检索 → 上下文构建 → LLM 生成 → 响应返回
+
+## 5. 设计决策
+- **使用 Tree-sitter**: 选择 Tree-sitter 作为代码解析器，支持多种编程语言，解析速度快，准确率高
+- **使用 ChromaDB**: 选择 ChromaDB 作为向量存储，轻量级，易于集成，支持增量更新
+- **使用 FastEmbed**: 选择 FastEmbed 作为文本嵌入库，速度快，内存占用小，适合生产环境
+- **模块化设计**: 采用模块化设计，便于扩展和维护，支持插件架构
+- **内存数据结构**: 使用内存数据结构存储分析结果，提高查询速度，支持 JSON 持久化
+- **版本控制**: 为 Wiki 文档提供版本管理，保留历史版本，支持回滚
+
+## 6. 扩展点
+- **LLM 提供商**: 支持多种 LLM 提供商，可根据需要添加新的提供商
+- **嵌入模型**: 支持多种嵌入模型，可根据需要切换不同的模型
+- **代码解析**: 支持多种编程语言，可根据需要添加新的语言支持
+- **文档格式**: 支持 Markdown 格式，可根据需要添加其他格式支持
+- **存储后端**: 支持 ChromaDB 和文件存储，可根据需要添加其他存储后端
+
+[MOCK RESPONSE END]
+
+## 系统架构图
+
+```mermaid
+flowchart TD
+  node0[.]
+  node1[codemind]
+  node2[codemind_cli]
+  node3[codemind_chat]
+  node4[codemind_parser]
+  node5[codemind_parser_models]
+  node6[codemind_embedding]
+  node7[codemind_generator]
+  node0 --> node1
+  node1 --> node2
+  node2 --> node3
+  node3 --> node4
+  node4 --> node5
+  node5 --> node6
+  node6 --> node7
+```
