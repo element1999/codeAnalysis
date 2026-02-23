@@ -19,7 +19,7 @@ app = typer.Typer(
 setup_logger()
 
 # Import commands directly
-from codemind.cli.commands import init, build, chat, status, clean
+from codemind.cli.commands import init, build, chat, status, clean, wiki, website
 
 # Add commands
 app.command()(init)
@@ -27,6 +27,8 @@ app.command()(build)
 app.command()(chat)
 app.command()(status)
 app.command()(clean)
+app.command()(wiki)
+app.command()(website)
 
 @app.callback()
 def main():

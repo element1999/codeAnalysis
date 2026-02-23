@@ -316,6 +316,73 @@ def status(debug: bool = typer.Option(True, "--debug/--no-debug", help="Enable d
         console.print(f"[red]✗ Failed: {e}[/red]")
 
 @app.command()
+def wiki(debug: bool = typer.Option(True, "--debug/--no-debug", help="Enable debug mode"),
+         mock: bool = typer.Option(False, "--mock", help="Enable mock mode for LLM")):
+    """Generate markdown documentation"""
+    # Set logger level based on debug flag
+    if debug:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
+    
+    console.print("[bold cyan]Generating markdown documentation...[/bold cyan]")
+    console.print(f"[blue]Debug mode:[/blue] {'Enabled' if debug else 'Disabled'}")
+    console.print(f"[blue]Mock mode:[/blue] {'Enabled' if mock else 'Disabled'}")
+    console.print()
+    
+    try:
+        # Initialize components
+        console.print("[bold blue]=== Initializing components ===[/bold blue]")
+        config_manager = ConfigManager(".")
+        storage_manager = StorageManager()
+        console.print("[green]✓ Components initialized[/green]")
+        console.print()
+        
+        # Generate documentation
+        console.print("[bold blue]=== Generating documentation ===[/bold blue]")
+        console.print("[blue]This may take a while...[/blue]")
+        console.print()
+        
+        from codemind.generator.manager import GeneratorManager
+        from codemind.config.schemas import LLMConfig
+        config = config_manager.load()
+        
+        # Create a copy of the LLM config and add mock flag
+        llm_config_data = config.llm.model_dump()
+        llm_config_data['mock'] = mock
+        llm_config = LLMConfig(**llm_config_data)
+        
+        generator_manager = GeneratorManager(
+            llm_config=llm_config,
+            generator_config=config.generator
+        )
+        
+        console.print("[cyan]Calling GeneratorManager.generate_docs()...[/cyan]")
+        console.print(f"  Project path: .")
+        console.print(f"  Storage path: {storage_manager.storage_path}")
+        console.print(f"  LLM provider: {config.llm.provider}")
+        console.print(f"  LLM model: {config.llm.model}")
+        console.print(f"  Mock mode: {mock}")
+        console.print()
+        
+        result = generator_manager.generate_docs(".", storage_manager.storage_path)
+        
+        console.print("[bold green]✓ Documentation generated![/bold green]")
+        console.print(f"[blue]Wiki path:[/blue] {result.get('wiki_path', 'unknown')}")
+        console.print(f"[blue]Total documents:[/blue] {result.get('total_documents', 0)}")
+        console.print(f"[blue]Overview doc:[/blue] {result.get('overview', 'unknown')}")
+        console.print(f"[blue]Architecture doc:[/blue] {result.get('architecture', 'unknown')}")
+        console.print(f"[blue]Modules documented:[/blue] {result.get('modules', 0)}")
+        console.print()
+        
+        console.print("[bold green]✓ Wiki documentation generated successfully![/bold green]")
+    except Exception as e:
+        logger.error(f"Failed to generate wiki documentation: {e}")
+        console.print(f"[red]✗ Failed: {e}[/red]")
+        import traceback
+        traceback.print_exc()
+
+@app.command()
 def clean(cache: bool = typer.Option(False, "--cache", help="Clean cache only"),
           vectors: bool = typer.Option(False, "--vectors", help="Clean vectors only"),
           all: bool = typer.Option(False, "--all", help="Clean all"),
@@ -357,3 +424,79 @@ def clean(cache: bool = typer.Option(False, "--cache", help="Clean cache only"),
     except Exception as e:
         logger.error(f"Failed to clean project: {e}")
         console.print(f"[red]✗ Failed: {e}[/red]")
+
+@app.command()
+def website(debug: bool = typer.Option(True, "--debug/--no-debug", help="Enable debug mode")):
+    """Generate website from markdown documentation using Docusaurus"""
+    # Set logger level based on debug flag
+    if debug:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
+    
+    console.print("[bold cyan]Generating website from markdown documentation...[/bold cyan]")
+    console.print(f"[blue]Debug mode:[/blue] {'Enabled' if debug else 'Disabled'}")
+    console.print()
+    
+    try:
+        # Initialize components
+        console.print("[bold blue]=== Initializing components ===[/bold blue]")
+        config_manager = ConfigManager(".")
+        console.print("[green]✓ Components initialized[/green]")
+        console.print()
+        
+        # Check if wiki documentation exists
+        wiki_path = ".codemind/wiki"
+        if not os.path.exists(wiki_path):
+            console.print("[yellow]⚠ Wiki documentation not found![/yellow]")
+            console.print("[blue]Please run 'codemind wiki' first to generate markdown documentation.[/blue]")
+            console.print()
+            return
+        
+        # Generate VitePress website
+        console.print("[bold blue]=== Generating VitePress website ===[/bold blue]")
+        console.print("[blue]This may take a while...[/blue]")
+        console.print()
+        
+        from codemind.generator.website_generator import WebsiteGenerator
+        config = config_manager.load()
+        
+        website_generator = WebsiteGenerator()
+        result = website_generator.generate_website(wiki_path)
+        
+        console.print("[bold green]✓ Website generated successfully![/bold green]")
+        console.print(f"[blue]Website path:[/blue] {result.get('website_path', 'unknown')}")
+        console.print(f"[blue]Build output:[/blue] {result.get('build_output', 'unknown')}")
+        console.print()
+        
+        console.print("[bold blue]=== How to view the website ===[/bold blue]")
+        console.print("[green]1. Serve the website locally:[/green]")
+        console.print("   cd website && npm run dev")
+        console.print()
+        console.print("[green]2. Open your browser:[/green]")
+        console.print("   http://localhost:5173")
+        console.print()
+        console.print("[green]3. For production build:[/green]")
+        console.print("   cd website && npm run build")
+        console.print()
+        
+        # Start the development server and open browser
+        console.print("[bold blue]=== Starting development server ===[/bold blue]")
+        console.print("[blue]Starting server and opening browser...[/blue]")
+        console.print()
+        
+        # Use WebsiteGenerator's method to start server and open browser
+        server_process = website_generator.start_server_and_open_browser()
+        
+        console.print("[yellow]Waiting for server to start...[/yellow]")
+        console.print()
+        console.print("[bold green]✓ Development server started![/bold green]")
+        console.print("[green]✓ Browser opened to:[/green] http://localhost:3000")
+        console.print()
+        console.print("[blue]To stop the server, press Ctrl+C in the terminal.[/blue]")
+        
+    except Exception as e:
+        logger.error(f"Failed to generate website: {e}")
+        console.print(f"[red]✗ Failed: {e}[/red]")
+        import traceback
+        traceback.print_exc()
