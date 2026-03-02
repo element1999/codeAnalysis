@@ -2,4 +2,5 @@ website/**
 .codemind/wiki/**/**
 .codemind/wiki/**
 .codemind/log/**
-.codemin/chroma/**
+.codemind/chroma/**
+.codemind/**

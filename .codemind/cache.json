@@ -1,7 +1,15 @@
 {
+  "/home/dong/mytool/codeAnalysis/check_config.py": {
+    "md5": "e966c92c4c97a90bbbfa96bf076fae36",
+    "modified": 1771817312.2775068
+  },
+  "/home/dong/mytool/codeAnalysis/check_website.py": {
+    "md5": "0f389d3b7b02fd27c26094e75194ca20",
+    "modified": 1771814139.4868155
+  },
   "/home/dong/mytool/codeAnalysis/codemind/__init__.py": {
     "md5": "fc2fb10e21d14e458fef669d2bfdfb1b",
-    "modified": 1771750467.2164323
+    "modified": 1771810416.1940079
   },
   "/home/dong/mytool/codeAnalysis/codemind/chat/__init__.py": {
     "md5": "d41d8cd98f00b204e9800998ecf8427e",
@@ -9,27 +17,27 @@
   },
   "/home/dong/mytool/codeAnalysis/codemind/chat/base.py": {
     "md5": "d428522d1501aa6e2a40760fdaacf370",
-    "modified": 1771753266.7148037
+    "modified": 1771810416.2302341
   },
   "/home/dong/mytool/codeAnalysis/codemind/chat/manager.py": {
     "md5": "387330124287b4b42ed9abe9022da8b9",
-    "modified": 1771753303.904261
+    "modified": 1771810416.2463348
   },
   "/home/dong/mytool/codeAnalysis/codemind/chat/rag.py": {
     "md5": "9fdc1e44386b3c5cc7ce8cb17de880f9",
-    "modified": 1771753285.7881486
+    "modified": 1771810416.2745106
   },
   "/home/dong/mytool/codeAnalysis/codemind/cli/__init__.py": {
     "md5": "44ab348b06a8b32913a399dbd652514f",
-    "modified": 1771750496.9450414
+    "modified": 1771810416.3026867
   },
   "/home/dong/mytool/codeAnalysis/codemind/cli/commands.py": {
-    "md5": "29deeb99a61b43e99d01e2b445853b5c",
-    "modified": 1771773687.601445
+    "md5": "c5f370ed4fe98b8ffaf3f3b199d144f3",
+    "modified": 1771811976.8910666
   },
   "/home/dong/mytool/codeAnalysis/codemind/config/__init__.py": {
     "md5": "a0de979e5a8c624f71c4f9c11b8e771a",
-    "modified": 1771750517.7353256
+    "modified": 1771810416.419416
   },
   "/home/dong/mytool/codeAnalysis/codemind/config/manager.py": {
     "md5": "136e79442862075784cad3c62e603ed0",
@@ -37,7 +45,7 @@
   },
   "/home/dong/mytool/codeAnalysis/codemind/config/schemas.py": {
     "md5": "956ce713e6459c06a2fcbc3e472b3528",
-    "modified": 1771773710.6937482
+    "modified": 1771810416.4435668
   },
   "/home/dong/mytool/codeAnalysis/codemind/core/__init__.py": {
     "md5": "1bc1fad7770438160b02214f453d3ed8",
@@ -49,7 +57,7 @@
   },
   "/home/dong/mytool/codeAnalysis/codemind/core/logger.py": {
     "md5": "843d438da6653eba82cbbf44c56ec19a",
-    "modified": 1771766167.7434883
+    "modified": 1771810416.4677176
   },
   "/home/dong/mytool/codeAnalysis/codemind/core/utils.py": {
     "md5": "121ac62b5f42ad480f1a03a38c6057d7",
@@ -61,15 +69,15 @@
   },
   "/home/dong/mytool/codeAnalysis/codemind/embedding/base.py": {
     "md5": "ab146297c22f1ce9702667f5b6545614",
-    "modified": 1771753121.6365342
+    "modified": 1771810416.4878435
   },
   "/home/dong/mytool/codeAnalysis/codemind/embedding/fastembed.py": {
     "md5": "88df76eb929997b5ee6a8c18cc2fb371",
-    "modified": 1771753132.753305
+    "modified": 1771810416.5119944
   },
   "/home/dong/mytool/codeAnalysis/codemind/embedding/manager.py": {
     "md5": "ff3100ae89c464f78bca45dfbc80b0f0",
-    "modified": 1771753144.5083725
+    "modified": 1771810416.5361452
   },
   "/home/dong/mytool/codeAnalysis/codemind/generator/__init__.py": {
     "md5": "9aa7f2bfcd8a24c884eb0fa63ef38759",
@@ -77,91 +85,15 @@
   },
   "/home/dong/mytool/codeAnalysis/codemind/generator/base.py": {
     "md5": "c677879703691d55b6d1d44a4c281551",
-    "modified": 1771753168.7866552
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/generator/llm_generator.py": {
-    "md5": "75db07a43334fee818173e3bf3a6f626",
-    "modified": 1771753197.95174
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/generator/manager.py": {
-    "md5": "68c41538bb2206d10421f08372fe0be6",
-    "modified": 1771773727.5768464
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/main.py": {
-    "md5": "88c94b462107d1ba1b050888d89b60d3",
-    "modified": 1771752774.891458
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/parser/__init__.py": {
-    "md5": "686289b0feb91ee031a45d49496f4e90",
-    "modified": 1771751019.9795282
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/parser/chunk_builder.py": {
-    "md5": "572a87622b99a5f586b760540072dce7",
-    "modified": 1771754617.9464662
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/parser/dependency_analyzer.py": {
-    "md5": "86af4fee06a71b1f8ec55862e19580de",
-    "modified": 1771751160.933921
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/parser/file_scanner.py": {
-    "md5": "79fad9a8b008200a1cb91d4348d1ebf5",
-    "modified": 1771752894.988059
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/parser/md5_cache.py": {
-    "md5": "313165cfc5ea5b88f246b2cd3cf5d8f2",
-    "modified": 1771752819.1908622
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/parser/models/__init__.py": {
-    "md5": "20aeddf80cda1530d465fb66ee747c3a",
-    "modified": 1771751025.6096096
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/parser/models/chunk.py": {
-    "md5": "3dff021f081e1e19f049008f7e290228",
-    "modified": 1771751043.8255153
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/parser/models/symbol.py": {
-    "md5": "4b349cc8020b9a5771128ff28b9e5dc9",
-    "modified": 1771751035.0395262
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/parser/symbol_extractor.py": {
-    "md5": "5d13445d9d63d75cf604f5a014f76848",
-    "modified": 1771752972.5032837
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/parser/tree_sitter_parser.py": {
-    "md5": "323eaa8c69b3d1d4ac92de1f211e1370",
-    "modified": 1771754434.6063516
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/storage/__init__.py": {
-    "md5": "d41d8cd98f00b204e9800998ecf8427e",
-    "modified": 1771752604.3399947
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/storage/base.py": {
-    "md5": "970769c1add22440d0c591bcd7666864",
-    "modified": 1771752611.7982407
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/storage/chroma.py": {
-    "md5": "f29155a3f0c4778e1bae1ca43f6853a5",
-    "modified": 1771755031.1121616
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/storage/file.py": {
-    "md5": "1c4c5c18434be9bf781e58b80b991526",
-    "modified": 1771752635.3721316
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/storage/manager.py": {
-    "md5": "42c61f5f4bc0fa493a24f83189966429",
-    "modified": 1771758074.4314082
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/storage/memory.py": {
-    "md5": "6fb8680fa31922b68c6273ceffe27963",
-    "modified": 1771752622.5791166
-  },
-  "/home/dong/mytool/codeAnalysis/setup.py": {
-    "md5": "349e7bc1167a699415fd37ba6b7b59d0",
-    "modified": 1771750452.9768972
+    "modified": 1771810416.5562708
   },
   "/home/dong/mytool/codeAnalysis/codemind/generator/context_assembler.py": {
     "md5": "0228543801c6fa2dcd525315fbe95abb",
     "modified": 1771762737.2541976
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/generator/document_generator.py": {
+    "md5": "804912577e174dcdb74e979b823ca05b",
+    "modified": 1771810416.6568434
   },
   "/home/dong/mytool/codeAnalysis/codemind/generator/document_writer.py": {
     "md5": "48e64e849bec3368bf35d089f8d2ac46",
@@ -171,20 +103,100 @@
     "md5": "cc07bd5b39ff017bb76749b7ad20990c",
     "modified": 1771774459.8606613
   },
+  "/home/dong/mytool/codeAnalysis/codemind/generator/llm_generator.py": {
+    "md5": "75db07a43334fee818173e3bf3a6f626",
+    "modified": 1771753197.95174
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/generator/manager.py": {
+    "md5": "68c41538bb2206d10421f08372fe0be6",
+    "modified": 1771810416.6729212
+  },
   "/home/dong/mytool/codeAnalysis/codemind/generator/mermaid_generator.py": {
     "md5": "c70bfd4a01b3be8cf058938d2ca2edf7",
     "modified": 1771757979.7116053
   },
+  "/home/dong/mytool/codeAnalysis/codemind/generator/website_generator.py": {
+    "md5": "5182119e6a9be36295a8d8d2b16dc602",
+    "modified": 1771817501.35388
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/main.py": {
+    "md5": "3971850526195faf4e569ad969ff8cfb",
+    "modified": 1771811342.950995
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/parser/__init__.py": {
+    "md5": "686289b0feb91ee031a45d49496f4e90",
+    "modified": 1771810416.7131162
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/parser/chunk_builder.py": {
+    "md5": "572a87622b99a5f586b760540072dce7",
+    "modified": 1771754617.9464662
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/parser/dependency_analyzer.py": {
+    "md5": "86af4fee06a71b1f8ec55862e19580de",
+    "modified": 1771810416.7332137
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/parser/file_scanner.py": {
+    "md5": "79fad9a8b008200a1cb91d4348d1ebf5",
+    "modified": 1771810416.7533112
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/parser/md5_cache.py": {
+    "md5": "313165cfc5ea5b88f246b2cd3cf5d8f2",
+    "modified": 1771810416.7774282
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/parser/models/__init__.py": {
+    "md5": "20aeddf80cda1530d465fb66ee747c3a",
+    "modified": 1771810416.793506
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/parser/models/chunk.py": {
+    "md5": "3dff021f081e1e19f049008f7e290228",
+    "modified": 1771810416.8136034
+  },
   "/home/dong/mytool/codeAnalysis/codemind/parser/models/document.py": {
     "md5": "a233671846a3329f9a28fce5ba531485",
-    "modified": 1771757746.40939
+    "modified": 1771810416.873896
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/parser/models/symbol.py": {
+    "md5": "4b349cc8020b9a5771128ff28b9e5dc9",
+    "modified": 1771810416.8980129
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/parser/symbol_extractor.py": {
+    "md5": "5d13445d9d63d75cf604f5a014f76848",
+    "modified": 1771810416.9261491
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/parser/tree_sitter_parser.py": {
+    "md5": "323eaa8c69b3d1d4ac92de1f211e1370",
+    "modified": 1771810417.010559
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/storage/__init__.py": {
+    "md5": "d41d8cd98f00b204e9800998ecf8427e",
+    "modified": 1771752604.3399947
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/storage/base.py": {
+    "md5": "970769c1add22440d0c591bcd7666864",
+    "modified": 1771810417.0266385
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/storage/chroma.py": {
+    "md5": "f29155a3f0c4778e1bae1ca43f6853a5",
+    "modified": 1771810417.0467381
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/storage/file.py": {
+    "md5": "1c4c5c18434be9bf781e58b80b991526",
+    "modified": 1771810417.0668375
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/storage/manager.py": {
+    "md5": "42c61f5f4bc0fa493a24f83189966429",
+    "modified": 1771810417.082917
+  },
+  "/home/dong/mytool/codeAnalysis/codemind/storage/memory.py": {
+    "md5": "6fb8680fa31922b68c6273ceffe27963",
+    "modified": 1771810417.1030164
+  },
+  "/home/dong/mytool/codeAnalysis/setup.py": {
+    "md5": "349e7bc1167a699415fd37ba6b7b59d0",
+    "modified": 1771810419.020589
   },
   "/home/dong/mytool/codeAnalysis/test_generator.py": {
     "md5": "d19441eb86283ed9b8bafbe1fabe5b8c",
-    "modified": 1771759518.714874
-  },
-  "/home/dong/mytool/codeAnalysis/codemind/generator/document_generator.py": {
-    "md5": "804912577e174dcdb74e979b823ca05b",
-    "modified": 1771775596.3896406
+    "modified": 1771810419.2819235
   }
 }
